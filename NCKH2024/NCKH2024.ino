@@ -73,14 +73,4 @@ void loop() {
     Serial2.println(command);
     time1 = millis();
   }
-  //   // Sending command to SIM A7672S for obtaining location data
-  // if (millis() > time1 + 1000) {
-  //   Serial2.println(command);
-  //   time1 = millis();
-  // }
-    //   // Sending command to SIM A7672S for obtaining location data
-  // if (millis() > time1 + 1000) {
-  //   Serial2.println(command);
-  //   time1 = millis();
-  // }
 }
