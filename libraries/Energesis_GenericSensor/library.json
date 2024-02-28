@@ -1,0 +1,24 @@
+{
+  "name": "Energesis_GenericSensor",
+  "keywords": "generic, sensor",
+  "description": "Generic interfaces for standardized implementation of sensor drivers.",
+  "authors":
+  [
+    {
+      "name": "Jose Guerra Carmenate",
+      "email": "joseguerracarmenate@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/Energesis-Ingenieria/Energesis_Sensor.git"
+  },
+  "version": "0.2",
+  "license": "Apache-2.0",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "Energesis_Sensor.h"
+  
+}

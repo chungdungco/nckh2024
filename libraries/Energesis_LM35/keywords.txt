@@ -1,0 +1,37 @@
+﻿#######################################
+# Syntax Coloring Map
+# Energesis_LM35
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+Energesis_LM35	KEYWORD1
+lm35_series_t   KEYWORD1
+
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+begin                 KEYWORD2
+setPin                KEYWORD2
+getPin                KEYWORD2
+getTemperature        KEYWORD2
+getTemperatureSensor  KEYWORD2
+getRaw                KEYWORD2
+getSample             KEYWORD2
+getSensorDetails      KEYWORD2
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+LM35                            LITERAL1
+LM35_A                          LITERAL1
+LM35_C                          LITERAL1
+LM35_CA                         LITERAL1
+LM35_D                          LITERAL1
+ENERGESIS_LM35_VERSION_MAJOR    LITERAL1
+ENERGESIS_LM35_VERSION_MINOR    LITERAL1
+

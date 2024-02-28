@@ -1,0 +1,26 @@
+#######################################
+# Syntax Coloring SE Unit
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+SE_EEPROM	KEYWORD2
+SetEEPROMSize	KEYWORD2
+GetEEPROMSize	KEYWORD2
+ClearEEPROMBlock	KEYWORD2
+EEPROMfix	KEYWORD2
+ReadEEPROMByte	KEYWORD2
+WriteEEPROMByte	KEYWORD2
+ReadEEPROMStr32	KEYWORD2
+WriteEEPROMStr32	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+

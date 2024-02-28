@@ -1,0 +1,26 @@
+{
+  "name": "Energesis LM35",
+  "version": "0.1.2",
+  "keywords": "sensor, LM35, temperature",
+  "description": "Driver for LM35 series temperature sensor.",
+  "authors":
+  [
+    {
+      "name": "Jose Guerra Carmenate",
+      "email": "joseguerracarmenate@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/Energesis-Ingenieria/Energesis_LM35.git"
+  },
+  "license": "Apache-2.0",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "Energesis_LM35.h",
+  "dependencies": {
+    "energesis-ingenieria/Energesis_GenericSensor": "*"
+  }
+}
