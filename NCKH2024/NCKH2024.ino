@@ -4,10 +4,17 @@
 
 File myFile;
 const int CS = 5;
+const unsigned long FILE_SAVE_INTERVAL = 30000; // Thời gian giữa các lần lưu tệp tin (30 giây)
+unsigned long lastFileSaveTime = 0; // Thời điểm lưu tệp tin cuối cùng
 
 long time1 = 0;
 String command = "AT+CLBS=4,1";
 int timeoffset = 7;
+bool isRecording = false; // Trạng thái ghi/lưu
+
+const int buttonPin = 2; // Chân của nút nhấn
+int buttonState = 0; // Trạng thái của nút nhấn trước đó
+int lastButtonState = LOW; // Trạng thái của nút nhấn trước đó
 
 void AppendFile(const char * path, const char * message){
   myFile = SD.open(path, FILE_APPEND); // Mở tệp để nối dữ liệu
@@ -36,7 +43,11 @@ void setup() {
 
   // Open file for writing
   AppendFile("/gps_data.txt", "Latitude,Longitude,Time");
+
+  // Thiết lập chân nút nhấn
+  pinMode(buttonPin, INPUT);
 }
+
 void parseCLBSData(String data) {
   int comma1 = data.indexOf(',');
   int comma2 = data.indexOf(',', comma1 + 1);
@@ -55,22 +66,56 @@ void parseCLBSData(String data) {
   _time = String(hour) + _time.substring(2);
 
   String dataString = _latitude + "," + _longitude + "," + _time;
-  AppendFile("/gps_data.txt", dataString.c_str()); // Gọi hàm AppendFile để nối dữ liệu
+
+  // Kiểm tra xem đã đến lúc lưu tệp tin mới chưa
+  unsigned long currentTime = millis();
+  if (currentTime - lastFileSaveTime >= FILE_SAVE_INTERVAL) {
+    // Tạo tên tệp mới dựa trên thời gian hiện tại
+    String filename = "/gps_data_" + String(currentTime) + ".txt";
+    // Lưu dữ liệu vào tệp tin mới
+    AppendFile(filename.c_str(), dataString.c_str());
+    // Cập nhật thời gian lưu tệp tin cuối cùng
+    lastFileSaveTime = currentTime;
+  } else {
+    // Nếu chưa đến thời điểm lưu tệp tin mới, chỉ nối dữ liệu vào tệp tin hiện tại
+    AppendFile("/gps_data.txt", dataString.c_str());
+  }
 }
 
 void loop() {
-  // Reading data from SIM A7672S
-  if (Serial2.available() > 0) {
-    String receivedData = Serial2.readStringUntil('\n');
-    receivedData.trim();
-    if (receivedData.startsWith("+CLBS:")) {
-      parseCLBSData(receivedData);
+  // Đọc trạng thái của nút nhấn
+  buttonState = digitalRead(buttonPin);
+
+  // Nếu nút nhấn được nhấn (điều kiện chuyển đổi)
+  if (buttonState != lastButtonState) {
+    // Nếu trạng thái ghi/lưu là false (không ghi)
+    if (!isRecording) {
+      isRecording = true; // Bắt đầu ghi/lưu
+      Serial.println("Recording started...");
+    } else {
+      isRecording = false; // Dừng ghi/lưu
+      Serial.println("Recording stopped...");
     }
   }
 
-  // Sending command to SIM A7672S for obtaining location data
-  if (millis() > time1 + 1000) {
-    Serial2.println(command);
-    time1 = millis();
+  // Lưu trạng thái nút nhấn cho lần lặp tiếp theo
+  lastButtonState = buttonState;
+
+  // Nếu đang ghi/lưu
+  if (isRecording) {
+    // Reading data from SIM A7672S
+    if (Serial2.available() > 0) {
+      String receivedData = Serial2.readStringUntil('\n');
+      receivedData.trim();
+      if (receivedData.startsWith("+CLBS:")) {
+        parseCLBSData(receivedData);
+      }
+    }
+
+    // Sending command to SIM A7672S for obtaining location data
+    if (millis() > time1 + 1000) {
+      Serial2.println(command);
+      time1 = millis();
+    }
   }
 }
